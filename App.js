@@ -1,15 +1,15 @@
-import {View, StyleSheet, ImageBackground} from 'react-native';
-import React, {useState} from 'react';
-import StartGameScreen from './screens/StartGameScreen';
-import GameScreen from './screens/GameScreen';
-import GameOverScreen from './screens/GameOverScreen';
-import LinearGradient from 'react-native-linear-gradient';
+import { View, StyleSheet, ImageBackground } from "react-native";
+import React, { useState } from "react";
+import StartGameScreen from "./screens/StartGameScreen";
+import GameScreen from "./screens/GameScreen";
+import GameOverScreen from "./screens/GameOverScreen";
+import LinearGradient from "react-native-linear-gradient";
 
 const App = () => {
   const [userNumber, setUserNumber] = useState();
   const [gameIsOver, setGameIsOver] = useState(true);
   const [guessRounds, setGuessRounds] = useState(0);
-  const pickedNumberHandler = pickedNumber => {
+  const pickedNumberHandler = (pickedNumber) => {
     setUserNumber(pickedNumber);
     setGameIsOver(false);
   };
@@ -23,7 +23,12 @@ const App = () => {
   let screen = <StartGameScreen OnPickNumber={pickedNumberHandler} />;
   if (userNumber) {
     screen = (
-      <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />
+      <GameScreen
+        userNumber={userNumber}
+        onGameOver={gameOverHandler}
+        setRoundsNumber={setGuessRounds}
+        roundsNumber={guessRounds}
+      />
     );
   }
   if (gameIsOver && userNumber) {
@@ -37,11 +42,12 @@ const App = () => {
   }
   return (
     <View style={styles.rootScreen}>
-      <LinearGradient colors={['#ddb52f', '#4e0329']} style={styles.linear}>
+      <LinearGradient colors={["#ddb52f", "#4e0329"]} style={styles.linear}>
         <ImageBackground
           style={styles.image}
-          source={require('./assets/images/dice.png')}
-          resizeMode="cover">
+          source={require("./assets/images/dice.png")}
+          resizeMode="cover"
+        >
           {screen}
         </ImageBackground>
       </LinearGradient>

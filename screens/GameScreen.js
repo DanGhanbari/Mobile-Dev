@@ -1,15 +1,20 @@
-import {Alert, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import React, {useState, useEffect} from 'react';
-import Title from '../components/ui/Title';
-import NumberContainer from '../components/game/NumberContainer';
-import PrimaryButton from '../components/ui/PrimaryButton';
-import Card from '../components/ui/Card';
-import InstructionText from '../components/ui/InstructionText';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Alert, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import Title from "../components/ui/Title";
+import NumberContainer from "../components/game/NumberContainer";
+import PrimaryButton from "../components/ui/PrimaryButton";
+import Card from "../components/ui/Card";
+import InstructionText from "../components/ui/InstructionText";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 let minBoundry = 1;
 let maxBoundry = 100;
-export default function GameScreen({userNumber, onGameOver}) {
+export default function GameScreen({
+  userNumber,
+  onGameOver,
+  setRoundsNumber,
+  roundsNumber,
+}) {
   const generateRandomBetween = (min, max, exclude) => {
     const rndNum = Math.floor(Math.random() * (max - min)) + min;
     if (rndNum === exclude) {
@@ -24,31 +29,33 @@ export default function GameScreen({userNumber, onGameOver}) {
     if (currentGuess === userNumber) {
       onGameOver();
     }
-  }, [currentGuess, userNumber, onGameOver]);
+  }, [currentGuess, userNumber, onGameOver, roundsNumber]);
   useEffect(() => {
     minBoundry = 1;
     maxBoundry = 100;
   }, []);
 
-  const nextGuessHandler = direction => {
+  const nextGuessHandler = (direction) => {
     if (
-      (direction === 'lower' && currentGuess < userNumber) ||
-      (direction === 'greater' && currentGuess > userNumber)
+      (direction === "lower" && currentGuess < userNumber) ||
+      (direction === "greater" && currentGuess > userNumber)
     ) {
-      Alert.alert('Do not lie!', 'You know that this is wrong...', [
-        {text: 'Sorry', style: 'cancel'},
+      Alert.alert("Do not lie!", "You know that this is wrong...", [
+        { text: "Sorry", style: "cancel" },
       ]);
       return;
     }
-    if (direction === 'lower') {
+    if (direction === "lower") {
       maxBoundry = currentGuess;
+      setRoundsNumber(roundsNumber + 1);
     } else {
       minBoundry = currentGuess + 1;
+      setRoundsNumber(roundsNumber + 1);
     }
     const newRndNumber = generateRandomBetween(
       minBoundry,
       maxBoundry,
-      currentGuess,
+      currentGuess
     );
     setCurrentGuess(newRndNumber);
   };
@@ -62,12 +69,12 @@ export default function GameScreen({userNumber, onGameOver}) {
         </InstructionText>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}>
+            <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
               <Icon name="plus" size={30} />
             </PrimaryButton>
           </View>
           <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}>
+            <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
               <Icon name="minus" size={30} />
             </PrimaryButton>
           </View>
@@ -81,13 +88,13 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 24,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonContainer: {
     flex: 1,
   },
   buttonsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   instructionText: {
     marginBottom: 12,
