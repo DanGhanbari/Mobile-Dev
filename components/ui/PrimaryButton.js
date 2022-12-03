@@ -1,17 +1,18 @@
-import {View, Text, Pressable, StyleSheet} from 'react-native';
-import React from 'react';
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import React from "react";
 
-const PrimaryButton = ({children, onPress}) => {
+const PrimaryButton = ({ children, onPress }) => {
   return (
-    <View style={styles.buttonOutercontainer}>
+    <View style={styles.buttonOuterContainer}>
       <Pressable
-        style={({pressed}) =>
+        style={({ pressed }) =>
           pressed
-            ? [styles.buttonInnercontainer, styles.pressed]
-            : styles.buttonInnercontainer
+            ? [styles.buttonInnerContainer, styles.pressed]
+            : styles.buttonInnerContainer
         }
-        onPress={onPress}>
-        <Text style={styles.burronText}>{children}</Text>
+        onPress={onPress}
+      >
+        <Text style={styles.buttonText}>{children}</Text>
       </Pressable>
     </View>
   );
@@ -20,19 +21,19 @@ const PrimaryButton = ({children, onPress}) => {
 export default PrimaryButton;
 
 const styles = StyleSheet.create({
-  buttonOutercontainer: {
+  buttonOuterContainer: {
     borderRadius: 28,
     margin: 4,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
-  buttonInnercontainer: {
-    backgroundColor: '#72063c',
+  buttonInnerContainer: {
+    backgroundColor: "#72063c",
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
-  burronText: {
-    color: 'white',
-    textAlign: 'center',
+  buttonText: {
+    color: "white",
+    textAlign: "center",
   },
   pressed: {
     opacity: 0.75,
